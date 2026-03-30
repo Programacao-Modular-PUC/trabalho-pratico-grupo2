@@ -1,0 +1,201 @@
+
+:root {
+  --ceu:      #dbeafe;
+  --ceu-med:  #bfdbfe;
+  --ceu-fundo:#93c5fd;
+  --mar:      #3b82f6;
+  --mar-esc:  #1d4ed8;
+  --menta:    #d1fae5;
+  --branco:   #ffffff;
+  --txt-esc:  #1e293b;
+  --txt-med:  #475569;
+  --txt-cla:  #94a3b8;
+  --lateral-l: 240px;
+}
+ 
+
+.lateral {
+  width: var(--lateral-l);
+  min-height: 100vh;
+  background: var(--branco);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-right: 1px solid var(--ceu-med);
+  z-index: 100;
+}
+ 
+.lateralLogo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid var(--ceu);
+}
+ 
+.marca {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  color: var(--mar-esc);
+  letter-spacing: -0.02em;
+}
+ 
+.slogan {
+  font-size: 0.7rem;
+  color: var(--txt-cla);
+  margin-top: 2px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+ 
+
+.lateralNav {
+  flex: 1;
+  padding: 24px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+ 
+.rotuloNav {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--txt-cla);
+  padding: 12px 12px 6px;
+  font-weight: 500;
+}
+ 
+.itemNav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--txt-med);
+  cursor: default;
+  transition: all 0.15s;
+  position: relative;
+}
+ 
+.itemNav.ativo {
+  background: var(--ceu);
+  color: var(--mar-esc);
+  font-weight: 500;
+}
+ 
+.itemNav.bloq {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+ 
+.itemNav.bloq:hover::after {
+
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--txt-esc);
+  color: white;
+  font-size: 0.7rem;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 200;
+}
+ 
+.iconeNav {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+ 
+.iconeBloq {
+  margin-left: auto;
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+ 
+
+.lateralPerfil {
+  margin: 8px 12px 20px;
+  background: linear-gradient(135deg, var(--ceu) 0%, var(--menta) 100%);
+  border-radius: 14px;
+  padding: 16px;
+}
+ 
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--branco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+}
+ 
+.rotuloPerf {
+  font-size: 0.7rem;
+  color: var(--txt-med);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 4px;
+}
+ 
+.nomePerf {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--txt-esc);
+}
+ 
+.statusPerf {
+  font-size: 0.72rem;
+  color: var(--txt-cla);
+  margin-top: 2px;
+}
+ 
+.acoesPerf {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+ 
+.btnEntrar {
+  flex: 1;
+  padding: 7px 0;
+  background: var(--mar);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+ 
+.btnEntrar:hover {
+  background: var(--mar-esc);
+}
+ 
+.btnCad {
+  flex: 1;
+  padding: 7px 0;
+  background: var(--branco);
+  color: var(--mar);
+  border: 1.5px solid var(--ceu-fundo);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+ 
+.btnCad:hover {
+  background: var(--ceu);
+}
+ 
