@@ -88,23 +88,23 @@ function Home() {
       <div className={styles.galeriaFila}>
         <div className={`${styles.galTile} ${styles.t1}`}>
           <div className={styles.tileInt}></div>
-          <div className={styles.tileOver}><div className={styles.tileLabel}>Piscinas Naturais</div></div>
+          
         </div>
         <div className={`${styles.galTile} ${styles.t2}`}>
           <div className={styles.tileInt}></div>
-          <div className={styles.tileOver}><div className={styles.tileLabel}>Mata Atlântica</div></div>
+          
         </div>
         <div className={`${styles.galTile} ${styles.t3}`}>
           <div className={styles.tileInt}></div>
-          <div className={styles.tileOver}><div className={styles.tileLabel}>Praias Paradisíacas</div></div>
+         
         </div>
         <div className={`${styles.galTile} ${styles.t4}`}>
           <div className={styles.tileInt}></div>
-          <div className={styles.tileOver}><div className={styles.tileLabel}>Recifes de Coral</div></div>
+        
         </div>
         <div className={`${styles.galTile} ${styles.t5}`}>
           <div className={styles.tileInt}></div>
-          <div className={styles.tileOver}><div className={styles.tileLabel}>Pôr do Sol</div></div>
+          
         </div>
       </div>
     </section>
@@ -119,7 +119,7 @@ function Home() {
         <div className={`${styles.cardRes} ${styles.r1}`}>
           <div className={styles.resImg}>🏡</div>
           <div className={styles.resCorpo}>
-            <div className={styles.resNome}>Casa da Beira Mar</div>
+         
             <div className={styles.resLoc}>📍Contagem</div>
             <div className={styles.resTags}>
               <span className={`${styles.tag} ${styles.azul}`}>Ar-condicionado</span>
@@ -134,7 +134,7 @@ function Home() {
         <div className={`${styles.cardRes} ${styles.r2}`}>
           <div className={styles.resImg}>🌴</div>
           <div className={styles.resCorpo}>
-            <div className={styles.resNome}>Chalé das Mangueiras</div>
+  
             <div className={styles.resLoc}>📍Buritis</div>
             <div className={styles.resTags}>
               <span className={`${styles.tag} ${styles.verde}`}>Hidromassagem</span>
@@ -149,7 +149,7 @@ function Home() {
         <div className={`${styles.cardRes} ${styles.r3}`}>
           <div className={styles.resImg}>🌺</div>
           <div className={styles.resCorpo}>
-            <div className={styles.resNome}> Caminho das Flores</div>
+            
             <div className={styles.resLoc}>📍Centro</div>
             <div className={styles.resTags}>
               <span className={`${styles.tag} ${styles.rosa}`}>Café incluído</span>
