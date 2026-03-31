@@ -9,23 +9,21 @@ function Cadastro() {
  
     <div className={styles.caixa}>
  
-      {/* Logo */}
       <div className={styles.topo}>
         <div className={styles.marca}>MaraúStay</div>
         <div className={styles.slogan}>Hospedagem • Maraú, BA</div>
       </div>
  
-      {/* Título */}
       <h1 className={styles.titulo}>Crie sua conta</h1>
       <p className={styles.sub}>Cadastre-se grátis e comece agora</p>
  
-      {/* Tipo de usuário */}
+      
       <div className={styles.tipoCont}>
         <button className={`${styles.tipo} ${styles.tipoAtivo}`}>🏠 Anfitrião</button>
         <button className={styles.tipo}>🧳 Cliente</button>
       </div>
  
-      {/* Formulário */}
+    
       <div className={styles.form}>
  
         <div className={styles.linha}>
@@ -69,7 +67,7 @@ function Cadastro() {
  
       </div>
  
-      {/* Rodapé do card */}
+   
       <p className={styles.login}>
         Já tem conta?{' '}
         <a href="#" className={styles.link}>Entrar</a>
