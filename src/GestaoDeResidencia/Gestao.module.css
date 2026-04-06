@@ -1,0 +1,27 @@
+.principal {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #e0f2fe 0%, #bae6fd 40%, #d1fae5 100%);
+}
+
+.caixa {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 44px 48px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.12);
+  border: 1px solid #dbeafe;
+}
+
+.titulo {
+  font-family: "Playfair Display", serif;
+  font-size: 1.6rem;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 6px;
+}
