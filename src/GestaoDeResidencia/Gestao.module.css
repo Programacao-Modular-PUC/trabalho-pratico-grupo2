@@ -1,27 +1,413 @@
 .principal {
-  width: 100vw;
-  height: 100vh;
+  margin-left: 240px;
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* ── Topo (hero) ─────────────────────────────────────── */
+.topo {
+  position: relative;
+  background: linear-gradient(160deg, #e0f2fe 0%, #bae6fd 40%, #d1fae5 100%);
+  padding: 56px 52px 52px;
   overflow: hidden;
+}
+.topo::before {
+  content: "";
+  position: absolute;
+  right: -80px;
+  top: -80px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(
+    circle,
+    rgba(147, 197, 253, 0.4) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+.topo h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 2.8rem;
+  line-height: 1.15;
+  color: #1d4ed8;
+  max-width: 480px;
+  margin-bottom: 14px;
+  position: relative;
+  animation: sobir 0.6s ease both;
+}
+.topo h1 em {
+  font-style: italic;
+  color: #3b82f6;
+}
+.topo p {
+  font-size: 0.95rem;
+  color: #475569;
+  max-width: 360px;
+  line-height: 1.6;
+  margin-bottom: 28px;
+  position: relative;
+  animation: sobir 0.6s ease 0.1s both;
+}
+.topoCta {
+  position: relative;
+  animation: sobir 0.6s ease 0.2s both;
+}
+.btnPrimario {
+  padding: 13px 28px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+  transition: all 0.2s;
+}
+.btnPrimario:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* ── Barra de stats ──────────────────────────────────── */
+.barraStats {
+  background: #ffffff;
+  border-bottom: 1px solid #dbeafe;
+  padding: 20px 52px;
+  display: flex;
+}
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 24px;
+  border-right: 1px solid #bfdbfe;
+}
+.stat:first-child {
+  padding-left: 0;
+}
+.stat:last-child {
+  border-right: none;
+}
+.statVal {
+  font-family: "Playfair Display", serif;
+  font-size: 1.7rem;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+.statLabel {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+/* ── Seção genérica ──────────────────────────────────── */
+.secao {
+  padding: 56px 52px;
+}
+.secaoTopo {
+  margin-bottom: 36px;
+}
+.secaoTitulo {
+  font-family: "Playfair Display", serif;
+  font-size: 1.9rem;
+  color: #1e293b;
+  line-height: 1.2;
+}
+.secaoTitulo span {
+  color: #3b82f6;
+  font-style: italic;
+}
+.secaoSub {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  max-width: 360px;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+/* ── Grade de cards ──────────────────────────────────── */
+.gradeCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid #dbeafe;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(59, 130, 246, 0.1);
+}
+.card:nth-child(2) {
+  background: linear-gradient(145deg, #dbeafe 0%, #ffffff 100%);
+}
+.card:nth-child(5) {
+  background: linear-gradient(145deg, #d1fae5 0%, #ffffff 100%);
+}
+.cardIcone {
+  font-size: 1.8rem;
+  margin-bottom: 14px;
+  display: block;
+}
+.cardTitulo {
+  font-family: "Playfair Display", serif;
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+.cardDesc {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.65;
+}
+.cardTag {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #3b82f6;
+  background: #dbeafe;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ── Galeria ─────────────────────────────────────────── */
+.galeria {
+  padding: 0 52px 56px;
+}
+.galeriaRotulo {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+  margin-bottom: 18px;
+  font-weight: 500;
+}
+.galeriaFila {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.galeriaFila::-webkit-scrollbar {
+  display: none;
+}
+.galTile {
+  flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+  height: 160px;
+}
+.galTile:hover {
+  transform: scale(1.02);
+}
+.galTile:nth-child(1) {
+  width: 200px;
+}
+.galTile:nth-child(2) {
+  width: 260px;
+}
+.galTile:nth-child(3) {
+  width: 180px;
+}
+.galTile:nth-child(4) {
+  width: 220px;
+}
+.galTile:nth-child(5) {
+  width: 190px;
+}
+.tileInt {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, #e0f2fe 0%, #bae6fd 40%, #d1fae5 100%);
+  font-size: 2.5rem;
+}
+.t1 .tileInt {
+  background: linear-gradient(135deg, #bae6fd, #7dd3fc);
+}
+.t2 .tileInt {
+  background: linear-gradient(135deg, #bbf7d0, #6ee7b7);
+}
+.t3 .tileInt {
+  background: linear-gradient(135deg, #fed7aa, #fdba74);
+}
+.t4 .tileInt {
+  background: linear-gradient(135deg, #fce7f3, #f9a8d4);
+}
+.t5 .tileInt {
+  background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+}
+.tileOver {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(30, 64, 175, 0.3));
+  padding: 12px;
+}
+.tileLabel {
+  font-size: 0.72rem;
+  color: white;
+  font-weight: 500;
 }
 
-.caixa {
+/* ── Grade residências ───────────────────────────────── */
+.gradeRes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.cardRes {
   background: #ffffff;
-  border-radius: 24px;
-  padding: 44px 48px;
-  width: 100%;
-  max-width: 440px;
-  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.12);
+  border-radius: 18px;
+  overflow: hidden;
   border: 1px solid #dbeafe;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+  cursor: pointer;
+}
+.cardRes:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(59, 130, 246, 0.12);
+}
+.resImg {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+}
+.r1 .resImg {
+  background: linear-gradient(135deg, #dbeafe, #bae6fd);
+}
+.r2 .resImg {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+}
+.r3 .resImg {
+  background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+}
+.resCorpo {
+  padding: 18px 20px;
+}
+.resNome {
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+.resLoc {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin-bottom: 12px;
+}
+.resTags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tag {
+  font-size: 0.68rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+.azul {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.verde {
+  background: #d1fae5;
+  color: #065f46;
+}
+.rosa {
+  background: #fce7f3;
+  color: #9d174d;
+}
+.resRodape {
+  padding: 12px 20px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #dbeafe;
+}
+.resPreco {
+  font-size: 0.82rem;
+  color: #475569;
+}
+.resPreco strong {
+  font-family: "Playfair Display", serif;
+  font-size: 1.1rem;
+  color: #1d4ed8;
+}
+.btnVer {
+  font-size: 0.75rem;
+  padding: 6px 14px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border: none;
+  border-radius: 8px;
+  cursor: not-allowed;
+  font-weight: 500;
+  opacity: 0.7;
 }
 
-.titulo {
+/* ── Rodapé ──────────────────────────────────────────── */
+.rodape {
+  background: #ffffff;
+  border-top: 1px solid #dbeafe;
+  padding: 32px 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rodapeMarca {
   font-family: "Playfair Display", serif;
-  font-size: 1.6rem;
-  color: #1e293b;
-  text-align: center;
-  margin-bottom: 6px;
+  font-size: 1.1rem;
+  color: #1d4ed8;
+}
+.rodapeCopy {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+.rodapeLinks {
+  display: flex;
+  gap: 20px;
+}
+.rodapeLink {
+  font-size: 0.8rem;
+  color: #475569;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.rodapeLink:hover {
+  color: #3b82f6;
+}
+
+/* ── Animação ────────────────────────────────────────── */
+@keyframes sobir {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
