@@ -10,8 +10,8 @@ function Cadastro() {
     <div className={styles.caixa}>
  
       <div className={styles.topo}>
-        <div className={styles.marca}>MaraúStay</div>
-        <div className={styles.slogan}>Hospedagem • Maraú, BA</div>
+
+    
       </div>
  
       <h1 className={styles.titulo}>Crie sua conta</h1>
