@@ -1,0 +1,107 @@
+.principal {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #e0f2fe 0%, #bae6fd 40%, #d1fae5 100%);
+}
+
+.caixa {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px 48px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.12);
+  border: 1px solid #dbeafe;
+}
+
+.titulo {
+  font-size: 1.6rem;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.sub {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+.input {
+  padding: 10px 14px;
+  border: 1.5px solid #dbeafe;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  background: #f8fbff;
+  outline: none;
+}
+
+.input:hover {
+  border-color: #bfdbfe;
+}
+
+select.input {
+  cursor: pointer;
+}
+
+.btnCad {
+  width: 100%;
+  padding: 13px 0;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.resumo {
+  background: #f1f5f9;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.campo input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: #3b82f6;
+  transform: scale(1.1);
+}
+
+@media (max-width: 600px) {
+  .caixa {
+    padding: 24px;
+  }
+
+  .linha {
+    grid-template-columns: 1fr;
+  }
+}
