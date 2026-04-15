@@ -52,7 +52,6 @@ function Reserva() {
         <h1 className={styles.titulo}>Reserva de Hospedagem</h1>
         <p className={styles.sub}>Preencha os dados da sua estadia</p>
 
-        {/* 👇 TEXTO NOVO SÓ PRA ALTERAR O CÓDIGO */}
         <p style={{ textAlign: "center", fontSize: "12px", color: "#64748b" }}>
           Sistema de reservas - versão 1.1
         </p>
