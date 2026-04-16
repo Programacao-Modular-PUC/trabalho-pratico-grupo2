@@ -28,7 +28,7 @@ function Gestao() {
       const timeout = setTimeout(() => {
         setTexto("");
         setIndexLetra(0);
-        setIndexFrase((prev) => (prev + 1) % frases.length); // 🔥 aqui está o segredo
+        setIndexFrase((prev) => (prev + 1) % frases.length);
       }, 1000);
 
       return () => clearTimeout(timeout);
