@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+.containerGeral {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #e0f2fe 0%, #bae6fd 40%, #d1fae5 100%);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.caixa {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px; /* Reduzi um pouco para não esticar demais */
+  border: 1px solid #dbeafe;
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.12);
+  animation: sobir 0.6s ease both;
+  z-index: 2;
+}
+
+.secaoTitulo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #1e293b;
+  text-align: center;
+  margin-top: 0;
+}
+
+.secaoTitulo span {
+  color: #3b82f6;
+  font-style: italic;
+}
+
+.secaoSub {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.cardInfo {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.statValMenor {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #1d4ed8;
+  margin: 4px 0;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.cardTag {
+  font-size: 0.65rem;
+  color: #3b82f6;
+  background: #dbeafe;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.resNome {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  margin: 4px 0;
+}
+
+.resLoc {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.detalhesPagamento {
+  border-top: 1px solid #dbeafe;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.itemLinha {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.resRodape {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1.5px solid #3b82f6;
+  display: flex;
+  justify-content: space-between;
+}
+
+.resPreco strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: #1d4ed8;
+}
+
+.acoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btnPrimario {
+  padding: 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btnVoltar {
+  padding: 12px;
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+@keyframes sobir {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Esconde os botões na hora de imprimir o recibo real */
+@media print {
+  .acoes, .secaoSub { display: none; }
+  .caixa { box-shadow: none; border: 1px solid #000; }
+  .containerGeral { background: white; }
+}

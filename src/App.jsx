@@ -4,7 +4,7 @@ import Login from "./Login/Login";
 import Cadastro from "./Cadastro/Cadastro";
 import Gestao from "./GestaoDeResidencia/Gestao";
 import Reserva from "./Reserva/Reserva";
-
+import StatusReserva from "./StatusReserva/StatusReserva";
 function App() {
   return (
     <>
@@ -15,6 +15,7 @@ function App() {
           <Route path="/Cadastro" element={<Cadastro />} />
           <Route path="/Gestao" element={<Gestao />} />
           <Route path="/reserva" element={<Reserva />} />
+          <Route path="/status" element={<StatusReserva />} />
         </Routes>
       </BrowserRouter>
     </>
