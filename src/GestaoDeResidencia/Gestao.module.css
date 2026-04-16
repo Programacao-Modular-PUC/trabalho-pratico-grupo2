@@ -400,14 +400,34 @@
   color: #3b82f6;
 }
 
-/* ── Animação ────────────────────────────────────────── */
-@keyframes sobir {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
+.linha {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: aparecer 0.6s ease forwards;
+}
+
+.linha:nth-child(1) {
+  animation-delay: 0s;
+}
+.linha:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.linha:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.cursor {
+  animation: blink 0.8s infinite;
+  color: #3b82f6;
+}
+
+@keyframes blink {
+  0%,
+  100% {
     opacity: 1;
-    transform: translateY(0);
+  }
+  50% {
+    opacity: 0;
   }
 }
