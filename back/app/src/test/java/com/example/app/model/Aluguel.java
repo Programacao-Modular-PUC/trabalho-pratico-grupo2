@@ -1,64 +1,103 @@
 package com.example.app.model;
 
+import jakarta.persistence.*;
+
+import java.util.Date;
+
+@Entity
 public class Aluguel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private  java.util.Date dataEntrada;    
-    private  java.util.Date dataSaiDate;  
-    private int numeroDiarias; 
-    private double valorFinal;     
-    public Aluguel(int id, java.util.Date dataEntrada, java.util.Date dataSaiDate, int numeroDiarias, double valorFinal) {
-        this.id = id;
-        this.dataEntrada = dataEntrada;
-        this.dataSaiDate = dataSaiDate;
-        this.numeroDiarias = numeroDiarias;
-        this.valorFinal = valorFinal;
+
+    private Date dataEntrada;
+    private Date dataSaida;
+    private int numeroDiarias;
+    private double valorFinal;
+
+    @ManyToOne
+    private Quarto quarto;
+
+    @ManyToOne
+    private Cliente cliente;
+
+    public Aluguel() {
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    public void setDataEntrada(java.util.Date dataEntrada) {
+    public Aluguel(Date dataEntrada,
+                   Date dataSaida,
+                   int numeroDiarias,
+                   Quarto quarto,
+                   Cliente cliente) {
+
         this.dataEntrada = dataEntrada;
-    }
-    public void setDataSaiDate(java.util.Date dataSaiDate) {
-        this.dataSaiDate = dataSaiDate;
-    }
-    public void setNumeroDiarias(int numeroDiarias) {
+        this.dataSaida = dataSaida;
         this.numeroDiarias = numeroDiarias;
+        this.quarto = quarto;
+        this.cliente = cliente;
+
+        this.valorFinal = calcularValorFinal();
     }
-    public void setValorFinal(double valorFinal) {
-        this.valorFinal = valorFinal;
+
+    public double calcularValorFinal() {
+
+        return quarto.calcularDiaria() * numeroDiarias;
     }
 
     public int getId() {
         return id;
     }
-    public java.util.Date getDataEntrada() {
+
+    public Date getDataEntrada() {
         return dataEntrada;
     }
-    public java.util.Date getDataSaiDate() {
-        return dataSaiDate;
-    }   
+
+    public Date getDataSaida() {
+        return dataSaida;
+    }
+
     public int getNumeroDiarias() {
         return numeroDiarias;
     }
+
     public double getValorFinal() {
         return valorFinal;
     }
 
-    public void registrarEntrada(){
-
-    }   
-    public void registrarSaida(){
-
-    } 
-    public void contarDiarias(){
-
+    public Quarto getQuarto() {
+        return quarto;
     }
-    public void calcularValorFinal(){
 
-    }   
-    public void gerarHistorico(){
+    public Cliente getCliente() {
+        return cliente;
+    }
 
-    }   
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDataEntrada(Date dataEntrada) {
+        this.dataEntrada = dataEntrada;
+    }
+
+    public void setDataSaida(Date dataSaida) {
+        this.dataSaida = dataSaida;
+    }
+
+    public void setNumeroDiarias(int numeroDiarias) {
+        this.numeroDiarias = numeroDiarias;
+    }
+
+    public void setValorFinal(double valorFinal) {
+        this.valorFinal = valorFinal;
+    }
+
+    public void setQuarto(Quarto quarto) {
+        this.quarto = quarto;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 }

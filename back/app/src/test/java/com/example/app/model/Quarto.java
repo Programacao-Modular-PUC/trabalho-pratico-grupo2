@@ -1,59 +1,60 @@
 package com.example.app.model;
 
-public class Quarto {
-    private int id; 
-    private String tipo;
-    private double valorBase;
-    private boolean disponivel;
-    private boolean adicional;
-    public Quarto(int id, String tipo, double valorBase, boolean disponivel, boolean adicional) {
-        this.id = id;
-        this.tipo = tipo;
+import jakarta.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Quarto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
+
+    protected double valorBase;
+    protected boolean possuiAR;
+    protected boolean possuiHidro;
+
+    public Quarto() {
+    }
+
+    public Quarto(double valorBase, boolean possuiAR, boolean possuiHidro) {
+
         this.valorBase = valorBase;
-        this.disponivel = disponivel;
-        this.adicional = adicional;
-    }   
-    public void setId(int id) {
-        this.id = id;
-    }   
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+        this.possuiAR = possuiAR;
+        this.possuiHidro = possuiHidro;
     }
-    public void setValorBase(double valorBase) {
-        this.valorBase = valorBase;
-    }
-    public void setDisponivel(boolean disponivel) {
-        this.disponivel = disponivel;
-    }
-    public void setAdicional(boolean adicional) {
-        this.adicional = adicional;
-    }
+
+    public abstract double calcularDiaria();
+
     public int getId() {
         return id;
-    }   
-    public String getTipo() {
-        return tipo;
     }
+
     public double getValorBase() {
         return valorBase;
     }
-    public boolean isDisponivel() {
-        return disponivel;
-    }
-    public boolean isAdicional() {
-        return adicional;
+
+    public boolean isPossuiAR() {
+        return possuiAR;
     }
 
-    public void definirTipo(){
-
+    public boolean isPossuiHidro() {
+        return possuiHidro;
     }
-    public void definirValorDiaria(){
 
-    }  
-    public void controlarDisponibilidade(){
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    }   
-    public void indicarAdicional(){
+    public void setValorBase(double valorBase) {
+        this.valorBase = valorBase;
+    }
 
-    }    
+    public void setPossuiAR(boolean possuiAR) {
+        this.possuiAR = possuiAR;
+    }
+
+    public void setPossuiHidro(boolean possuiHidro) {
+        this.possuiHidro = possuiHidro;
+    }
 }
