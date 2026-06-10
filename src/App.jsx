@@ -1,3 +1,4 @@
+import React from "react"; // <-- ESSA LINHA ADICIONADA AQUI EM CIMA É O SEGREDO
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./PagesCliente/Home/Home";
@@ -13,21 +14,13 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-
           <Route path="/" element={<Home />} />
-
           <Route path="/Login" element={<Login />} />
-
           <Route path="/Cadastro" element={<Cadastro />} />
-
           <Route path="/Gestao" element={<Gestao />} />
-
           <Route path="/reserva" element={<Reserva />} />
-
           <Route path="/status" element={<StatusReserva />} />
-
           <Route path="/Residencia" element={<Residencia />} />
-
         </Routes>
       </BrowserRouter>
     </>

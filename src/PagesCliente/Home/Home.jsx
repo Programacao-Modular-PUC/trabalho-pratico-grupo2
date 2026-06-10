@@ -1,4 +1,5 @@
-import Header from '../../Components/Header/Header'
+import React from 'react'; // <-- ESSA LINHA PRECISA SER A PRIMEIRA DO ARQUIVO!
+import Header from '../../Components/Header/Header' 
 import styles from '../Home/Home.module.css'
 function Home() {
  
