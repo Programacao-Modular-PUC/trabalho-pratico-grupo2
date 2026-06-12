@@ -1,85 +1,87 @@
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import Header from "../Components/Header/Header";
 import styles from "./StatusReserva.module.css";
 
 function StatusReserva() {
-  const [reserva] = useState({
-    cliente: "Gustavo Paulino",
-    cpf: "123.456.789-00",
-    residencia: "Pousada Marau - Centro",
-    quarto: "Casal",
-    entrada: "2026-04-20T14:00",
-    saida: "2026-04-22T13:00",
-    valorBase: 150,
-    ar: true,
-    hidro: false
-  });
+  const [alugueis, setAlugueis] = useState([]);
+  const [user, setUser] = useState(null);
 
-  function calcularDiariasOficial(entrada, saida) {
-    const dataIn = new Date(entrada);
-    const dataOut = new Date(saida);
-    let diffms = dataOut - dataIn;
-    let dias = Math.floor(diffms / (1000 * 60 * 60 * 24));
-    if (dataOut.getHours() >= 12) dias += 1;
-    return dias > 0 ? dias : 1;
-  }
+  useEffect(() => {
+    // 1. Carrega as informações do usuário logado na sessão
+    const stored = localStorage.getItem('@Hospedagem:user');
+    let usuarioLogado = null;
+    
+    if (stored) {
+      usuarioLogado = JSON.parse(stored);
+      setUser(usuarioLogado);
+    }
 
-  const numDiarias = calcularDiariasOficial(reserva.entrada, reserva.saida);
-  const adicionais = (reserva.ar ? 30 : 0) + (reserva.hidro ? 50 : 0);
-  const totalPagar = (reserva.valorBase + adicionais) * numDiarias;
+    // 2. Busca todos os aluguéis do banco de dados MySQL via API
+    fetch('http://localhost:8080/alugueis')
+      .then(res => res.json())
+      .then(data => {
+        // REGRA DE FILTRO POR PERFIL:
+        if (usuarioLogado && usuarioLogado.tipoPerfil === 'CLIENTE') {
+          // Se for cliente comum, filtra para exibir estritamente as reservas dele
+          const apenasMinhasReservas = data.filter(item => item.cliente?.id === usuarioLogado.id);
+          setAlugueis(apenasMinhasReservas);
+        } else {
+          // Se for ANFITRIAO (como o glender), exibe todos os recibos do sistema para gestão
+          setAlugueis(data);
+        }
+      })
+      .catch(() => alert("Erro ao carregar recibos do banco MySQL"));
+  }, []);
 
   return (
-    <main className={styles.containerGeral}>
-      <div className={styles.caixa}>
-        <header className={styles.secaoTopo}>
-          <h1 className={styles.secaoTitulo}>Status da <span>Hospedagem</span></h1>
-          <p className={styles.secaoSub}>Confira os detalhes da sua estadia em Maraú</p>
-        </header>
+    <div style={{ display: "flex" }}>
+      <Header />
+      <main className={styles.containerGeral} style={{marginLeft: '240px', width: 'calc(100vw - 240px)'}}>
+        <div className={styles.caixa}>
+          <header className={styles.secaoTopo}>
+            <h1 className={styles.secaoTitulo}>Recibos de <span>Hospedagem</span></h1>
+            <p className={styles.secaoSub}>Histórico oficial extraído via API</p>
+          </header>
 
-        <section className={styles.cardInfo}>
-          <div className={styles.infoGrupo}>
-            <span className={styles.statLabel}>Hóspede Principal</span>
-            <p className={styles.statValMenor}>{reserva.cliente}</p>
-            <span className={styles.cardTag}>CPF: {reserva.cpf}</span>
-          </div>
+          {alugueis.length === 0 ? (
+            <p style={{textAlign:'center', color:'#64748b'}}>Nenhum recibo de aluguel encontrado.</p>
+          ) : (
+            alugueis.map((item, idx) => (
+              <section key={idx} className={styles.cardInfo} style={{marginBottom: '20px'}}>
+                <div className={styles.infoGrupo}>
+                  <span className={styles.statLabel}>Hóspede Cadastrado</span>
+                  {/* Exibe o nome associado à reserva vinda do banco ou o usuário logado */}
+                  <p className={styles.statValMenor}>{item.cliente?.nome || user?.nome}</p>
+                  <span className={styles.cardTag}>ID da Operação: {item.id}</span>
+                </div>
 
-          <div className={styles.infoGrupo}>
-            <span className={styles.statLabel}>Localização</span>
-            <p className={styles.resNome}>{reserva.residencia}</p>
-            <p className={styles.resLoc}>Quarto: {reserva.quarto}</p>
-          </div>
+                <div className={styles.detalhesPagamento}>
+                  <div className={styles.itemLinha}>
+                    <span>Check-in / Check-out:</span>
+                    <strong>{new Date(item.dataEntrada).toLocaleDateString()} até {new Date(item.dataSaida).toLocaleDateString()}</strong>
+                  </div>
+                  <div className={styles.itemLinha}>
+                    <span>Permanência faturada:</span>
+                    <strong>{item.numeroDiarias} diárias</strong>
+                  </div>
+                  <div className={styles.resRodape}>
+                     <span className={styles.resPreco}>Total pago (com taxas)</span>
+                     <span className={styles.resPreco}><strong>R$ {item.valorFinal?.toFixed(2)}</strong></span>
+                  </div>
+                </div>
+              </section>
+            ))
+          )}
 
-          <div className={styles.detalhesPagamento}>
-            <div className={styles.itemLinha}>
-              <span>Check-in:</span>
-              <strong>{new Date(reserva.entrada).toLocaleDateString()} às 12h</strong>
-            </div>
-            <div className={styles.itemLinha}>
-              <span>Check-out:</span>
-              <strong>{new Date(reserva.saida).toLocaleDateString()} às {new Date(reserva.saida).getHours()}h</strong>
-            </div>
-            <div className={styles.itemLinha}>
-              <span>Permanência:</span>
-              <strong>{numDiarias} diárias</strong>
-            </div>
+          <div className={styles.acoes}>
             
-            <div className={styles.resRodape}>
-               <span className={styles.resPreco}>Total à pagar</span>
-               <span className={styles.resPreco}><strong>R$ {totalPagar.toFixed(2)}</strong></span>
-            </div>
+            <button className={styles.btnPrimario} onClick={() => alert("Pagamento validado!")}>
+              Confirmar Quitação
+            </button>
           </div>
-        </section>
-
-        <div className={styles.acoes}>
-          {/* BOTÃO CORRIGIDO AQUI */}
-          <button className={styles.btnVoltar} onClick={() => window.print()}>
-            Imprimir Recibo
-          </button>
-          <button className={styles.btnPrimario}>
-            Confirmar Pagamento
-          </button>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
 

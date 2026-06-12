@@ -2,7 +2,7 @@
   margin-left: 240px;
   flex: 1;
   min-height: 100vh;
-} /* ── Topo (hero) ─────────────────────────────────────── */
+} 
 .topo {
   position: relative;
   background: linear-gradient(160deg, #e0f2fe 0%, #bae6fd 40%, #d1fae5 100%);
@@ -66,7 +66,7 @@
   background: #1d4ed8;
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-} /* ── Barra de stats ──────────────────────────────────── */
+}
 .barraStats {
   background: #ffffff;
   border-bottom: 1px solid #dbeafe;
@@ -96,7 +96,7 @@
 .statLabel {
   font-size: 0.78rem;
   color: #94a3b8;
-} /* ── Seção genérica ──────────────────────────────────── */
+}
 .secao {
   padding: 56px 52px;
 }
@@ -119,7 +119,7 @@
   max-width: 360px;
   line-height: 1.6;
   margin-top: 8px;
-} /* ── Grade de cards ──────────────────────────────────── */
+} 
 .gradeCards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -171,7 +171,7 @@
   border-radius: 999px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-} /* ── Galeria ─────────────────────────────────────────── */
+} 
 .galeria {
   padding: 0 52px 56px;
 }
@@ -255,7 +255,7 @@
   font-size: 0.72rem;
   color: white;
   font-weight: 500;
-} /* ── Grade residências ───────────────────────────────── */
+} 
 .gradeRes {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -354,7 +354,7 @@
   cursor: not-allowed;
   font-weight: 500;
   opacity: 0.7;
-} /* ── Rodapé ──────────────────────────────────────────── */
+} 
 .rodape {
   background: #ffffff;
   border-top: 1px solid #dbeafe;
@@ -413,7 +413,7 @@
   border-radius: 12px;
 }
 
-/* ── Animação ────────────────────────────────────────── */
+
 @keyframes sobir {
   from {
     opacity: 0;

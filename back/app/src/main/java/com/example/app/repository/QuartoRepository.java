@@ -1,8 +1,9 @@
-    package com.example.app.repository;
+package com.example.app.repository;
 
-    import com.example.app.model.Quarto;
-    import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.app.model.Quarto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-    public interface QuartoRepository extends JpaRepository<Quarto, Integer> {
-
-    }
+@Repository
+public interface QuartoRepository extends JpaRepository<Quarto, Long> {
+}
