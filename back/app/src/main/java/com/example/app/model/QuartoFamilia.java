@@ -30,6 +30,11 @@ public class QuartoFamilia extends Quarto {
         return total;
     }
 
+    @Override
+    public int getCapacidadeMaxima() {
+        return quantidadeHospedes;
+    }
+
     public int getQuantidadeHospedes() { return quantidadeHospedes; }
     public void setQuantidadeHospedes(int quantidadeHospedes) { this.quantidadeHospedes = quantidadeHospedes; }
     public int getQuantidadeAmbientes() { return quantidadeAmbientes; }

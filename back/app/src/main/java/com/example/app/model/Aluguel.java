@@ -21,6 +21,9 @@ public class Aluguel {
     private int quantidadeHospedes;
     private double valorFinal;
 
+    @Enumerated(EnumType.STRING)
+    private StatusAluguel status;
+
     @ManyToOne
     @JoinColumn(name = "quarto_id")
     private Quarto quarto;
@@ -39,6 +42,7 @@ public class Aluguel {
         this.quarto = quarto;
         this.cliente = cliente;
         this.valorFinal = calcularValorFinal();
+        this.status = StatusAluguel.ATIVO;
     }
 
     public double calcularValorFinal() {
@@ -71,4 +75,6 @@ public class Aluguel {
     public void setQuarto(Quarto quarto) { this.quarto = quarto; }
     public Cliente getCliente() { return cliente; }
     public void setCliente(Cliente cliente) { this.cliente = cliente; }
+    public StatusAluguel getStatus() { return status; }
+    public void setStatus(StatusAluguel status) { this.status = status; }
 }

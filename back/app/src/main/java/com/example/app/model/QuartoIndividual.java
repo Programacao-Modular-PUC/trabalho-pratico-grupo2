@@ -23,6 +23,11 @@ public class QuartoIndividual extends Quarto {
         return valorBase + ((quantidadeCamas - 1) * 50.0);
     }
 
+    @Override
+    public int getCapacidadeMaxima() {
+        return quantidadeCamas;
+    }
+
     public int getQuantidadeCamas() { return quantidadeCamas; }
     public void setQuantidadeCamas(int quantidadeCamas) { this.quantidadeCamas = quantidadeCamas; }
 }

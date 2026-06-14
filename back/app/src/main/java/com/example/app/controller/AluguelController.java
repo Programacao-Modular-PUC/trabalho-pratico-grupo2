@@ -26,13 +26,20 @@ public class AluguelController {
         return repository.findAll();
     }
 
+    @GetMapping("/cliente/{clienteId}")
+    public ResponseEntity<List<Aluguel>> historicoPorCliente(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(service.buscarHistoricoPorCliente(clienteId));
+    }
+
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody Aluguel aluguel) {
-        try {
-            Aluguel novo = service.registrarAluguel(aluguel);
-            return new ResponseEntity<>(novo, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Aluguel> cadastrar(@RequestBody Aluguel aluguel) {
+        Aluguel novo = service.registrarAluguel(aluguel);
+        return new ResponseEntity<>(novo, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}/cancelar")
+    public ResponseEntity<Aluguel> cancelar(@PathVariable Long id) {
+        Aluguel cancelado = service.cancelarAluguel(id);
+        return ResponseEntity.ok(cancelado);
     }
 }
