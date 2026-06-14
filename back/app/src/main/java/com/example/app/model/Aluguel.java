@@ -6,17 +6,13 @@ import java.util.Date;
 @Entity
 @Table(name = "alugueis")
 public class Aluguel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEntrada;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataSaida;
-
     private int numeroDiarias;
     private int quantidadeHospedes;
     private double valorFinal;
@@ -29,32 +25,20 @@ public class Aluguel {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    public Aluguel() {}
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pagamento_id")
+    private Pagamento pagamento;
 
-    public Aluguel(Date dataEntrada, Date dataSaida, int numeroDiarias, int quantidadeHospedes, Quarto quarto, Cliente cliente) {
-        this.dataEntrada = dataEntrada;
-        this.dataSaida = dataSaida;
-        this.numeroDiarias = numeroDiarias;
-        this.quantidadeHospedes = quantidadeHospedes;
-        this.quarto = quarto;
-        this.cliente = cliente;
-        this.valorFinal = calcularValorFinal();
-    }
+    public Aluguel() {}
 
     public double calcularValorFinal() {
         if (quarto == null) return 0.0;
-        
-  
         double valorDiariaQuarto = quarto.calcularDiaria();
-
-
         if (quarto.isPossuiAR()) valorDiariaQuarto += 30.0;
         if (quarto.isPossuiHidro()) valorDiariaQuarto += 50.0;
-
         return valorDiariaQuarto * this.numeroDiarias;
     }
 
-    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Date getDataEntrada() { return dataEntrada; }
@@ -71,4 +55,6 @@ public class Aluguel {
     public void setQuarto(Quarto quarto) { this.quarto = quarto; }
     public Cliente getCliente() { return cliente; }
     public void setCliente(Cliente cliente) { this.cliente = cliente; }
+    public Pagamento getPagamento() { return pagamento; }
+    public void setPagamento(Pagamento pagamento) { this.pagamento = pagamento; }
 }

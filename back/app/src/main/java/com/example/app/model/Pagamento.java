@@ -1,44 +1,26 @@
 package com.example.app.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "pagamentos")
 public class Pagamento {
-    private int id; 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private double valor;
     private String status;
-    public Pagamento(int id, double valor, String status) {
-        this.id = id;
+
+    public Pagamento() {}
+    public Pagamento(double valor, String status) {
         this.valor = valor;
         this.status = status;
     }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    public int getId() {
-        return id;
-    }
-    public double getValor() {
-        return valor;
-    }
-    public String getStatus() {
-        return status;
-    }
 
-    public void registrarValor(){
-
-    }   
-    public void registrarPagamento(){
-
-    }   
-    public void confirmarPagamento(){
-
-    }
-    public void vincularPagamentoAluguel(){
-
-    }
-    
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public double getValor() { return valor; }
+    public void setValor(double valor) { this.valor = valor; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

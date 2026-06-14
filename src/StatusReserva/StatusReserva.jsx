@@ -7,31 +7,28 @@ function StatusReserva() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // 1. Carrega as informações do usuário logado na sessão
     const stored = localStorage.getItem('@Hospedagem:user');
-    let usuarioLogado = null;
-    
     if (stored) {
-      usuarioLogado = JSON.parse(stored);
+      const usuarioLogado = JSON.parse(stored);
       setUser(usuarioLogado);
+      
+      // Busca apenas as reservas do cliente logado
+      fetch(`http://localhost:8080/alugueis/cliente/${usuarioLogado.id}`)
+        .then(res => res.json())
+        .then(data => setAlugueis(data))
+        .catch(() => alert("Erro ao carregar seu histórico"));
     }
-
-    // 2. Busca todos os aluguéis do banco de dados MySQL via API
-    fetch('http://localhost:8080/alugueis')
-      .then(res => res.json())
-      .then(data => {
-        // REGRA DE FILTRO POR PERFIL:
-        if (usuarioLogado && usuarioLogado.tipoPerfil === 'CLIENTE') {
-          // Se for cliente comum, filtra para exibir estritamente as reservas dele
-          const apenasMinhasReservas = data.filter(item => item.cliente?.id === usuarioLogado.id);
-          setAlugueis(apenasMinhasReservas);
-        } else {
-          // Se for ANFITRIAO (como o glender), exibe todos os recibos do sistema para gestão
-          setAlugueis(data);
-        }
-      })
-      .catch(() => alert("Erro ao carregar recibos do banco MySQL"));
   }, []);
+
+  async function confirmarQuitacao(id) {
+    const res = await fetch(`http://localhost:8080/alugueis/${id}/pagar`, { method: 'PUT' });
+    if (res.ok) {
+      alert("Pagamento validado com sucesso!");
+      window.location.reload();
+    } else {
+      alert("Erro ao validar pagamento.");
+    }
+  }
 
   return (
     <div style={{ display: "flex" }}>
@@ -46,39 +43,30 @@ function StatusReserva() {
           {alugueis.length === 0 ? (
             <p style={{textAlign:'center', color:'#64748b'}}>Nenhum recibo de aluguel encontrado.</p>
           ) : (
-            alugueis.map((item, idx) => (
-              <section key={idx} className={styles.cardInfo} style={{marginBottom: '20px'}}>
+            alugueis.map((item) => (
+              <section key={item.id} className={styles.cardInfo} style={{marginBottom: '20px'}}>
                 <div className={styles.infoGrupo}>
-                  <span className={styles.statLabel}>Hóspede Cadastrado</span>
-                  {/* Exibe o nome associado à reserva vinda do banco ou o usuário logado */}
-                  <p className={styles.statValMenor}>{item.cliente?.nome || user?.nome}</p>
-                  <span className={styles.cardTag}>ID da Operação: {item.id}</span>
+                  <span className={styles.statLabel}>Hóspede</span>
+                  <p className={styles.statValMenor}>{item.cliente?.nome}</p>
+                  <span className={styles.cardTag}>ID: {item.id}</span>
                 </div>
 
                 <div className={styles.detalhesPagamento}>
                   <div className={styles.itemLinha}>
-                    <span>Check-in / Check-out:</span>
-                    <strong>{new Date(item.dataEntrada).toLocaleDateString()} até {new Date(item.dataSaida).toLocaleDateString()}</strong>
-                  </div>
-                  <div className={styles.itemLinha}>
-                    <span>Permanência faturada:</span>
-                    <strong>{item.numeroDiarias} diárias</strong>
+                    <span>Status:</span> <strong>{item.pagamento?.status || 'PENDENTE'}</strong>
                   </div>
                   <div className={styles.resRodape}>
-                     <span className={styles.resPreco}>Total pago (com taxas)</span>
+                     <span className={styles.resPreco}>Total pago</span>
                      <span className={styles.resPreco}><strong>R$ {item.valorFinal?.toFixed(2)}</strong></span>
                   </div>
                 </div>
+                
+                <button className={styles.btnPrimario} onClick={() => confirmarQuitacao(item.id)}>
+                  Confirmar Quitação
+                </button>
               </section>
             ))
           )}
-
-          <div className={styles.acoes}>
-            
-            <button className={styles.btnPrimario} onClick={() => alert("Pagamento validado!")}>
-              Confirmar Quitação
-            </button>
-          </div>
         </div>
       </main>
     </div>
