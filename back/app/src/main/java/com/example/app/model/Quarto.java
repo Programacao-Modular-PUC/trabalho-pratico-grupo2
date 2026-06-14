@@ -13,6 +13,7 @@ public abstract class Quarto {
     protected double valorBase;
     protected boolean possuiAR;
     protected boolean possuiHidro;
+    protected boolean disponivel = true;
 
     public Quarto() {}
 
@@ -20,9 +21,12 @@ public abstract class Quarto {
         this.valorBase = valorBase;
         this.possuiAR = possuiAR;
         this.possuiHidro = possuiHidro;
+        this.disponivel = true;
     }
 
     public abstract double calcularDiaria();
+
+    public abstract int getCapacidadeMaxima();
 
     
     public Long getId() { return id; }
@@ -33,4 +37,6 @@ public abstract class Quarto {
     public void setPossuiAR(boolean possuiAR) { this.possuiAR = possuiAR; }
     public boolean isPossuiHidro() { return possuiHidro; }
     public void setPossuiHidro(boolean possuiHidro) { this.possuiHidro = possuiHidro; }
+    public boolean isDisponivel() { return disponivel; }
+    public void setDisponivel(boolean disponivel) { this.disponivel = disponivel; }
 }

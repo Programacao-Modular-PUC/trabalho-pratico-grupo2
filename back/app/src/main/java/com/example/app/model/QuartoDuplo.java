@@ -1,5 +1,6 @@
 package com.example.app.model;
 
+import com.example.app.exception.RecursoNaoPermitidoException;
 import jakarta.persistence.*;
 
 @Entity
@@ -34,6 +35,17 @@ public class QuartoDuplo extends Quarto {
         }
 
         return total;
+    }
+
+    @Override
+    public int getCapacidadeMaxima() {
+        return possuiBerco ? 3 : 2;
+    }
+
+    public void validarSolicitacaoBerco() {
+        if (solicitouBerco && !possuiBerco) {
+            throw new RecursoNaoPermitidoException("Este quarto não possui berço disponível para solicitação.");
+        }
     }
 
     public TipoCama getTipoCama() { return tipoCama; }

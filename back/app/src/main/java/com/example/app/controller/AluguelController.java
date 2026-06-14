@@ -28,6 +28,7 @@ public class AluguelController {
     }
 
     @GetMapping("/cliente/{clienteId}")
+<<<<<<< HEAD
     public ResponseEntity<?> listarPorCliente(@PathVariable Long clienteId) {
         try {
             List<Aluguel> reservas = service.listarReservasPorCliente(clienteId);
@@ -63,4 +64,21 @@ public class AluguelController {
             return ResponseEntity.badRequest().build();
         }
     }
+=======
+    public ResponseEntity<List<Aluguel>> historicoPorCliente(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(service.buscarHistoricoPorCliente(clienteId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Aluguel> cadastrar(@RequestBody Aluguel aluguel) {
+        Aluguel novo = service.registrarAluguel(aluguel);
+        return new ResponseEntity<>(novo, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}/cancelar")
+    public ResponseEntity<Aluguel> cancelar(@PathVariable Long id) {
+        Aluguel cancelado = service.cancelarAluguel(id);
+        return ResponseEntity.ok(cancelado);
+    }
+>>>>>>> 59ed827f9082e310da594185d46356a6fcbd4e65
 }
