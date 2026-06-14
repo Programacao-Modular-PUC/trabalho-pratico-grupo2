@@ -2,26 +2,6 @@ package com.example.app.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-
-@ControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(DataInvalidaException.class)
-    public ResponseEntity<String> handleDataInvalida(DataInvalidaException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(QuartoIndisponivelException.class)
-    public ResponseEntity<String> handleQuartoIndisponivel(QuartoIndisponivelException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-    }
-    
-    // Adicione outros handlers conforme necessário
-}
-=======
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -63,6 +43,11 @@ public class GlobalExceptionHandler {
         return construirResposta(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalState(IllegalStateException ex, WebRequest request) {
+        return construirResposta(HttpStatus.CONFLICT, ex.getMessage(), request);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex, WebRequest request) {
         String mensagem = ex.getBindingResult().getFieldErrors().stream()
@@ -82,4 +67,3 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(erro, status);
     }
 }
->>>>>>> 59ed827f9082e310da594185d46356a6fcbd4e65

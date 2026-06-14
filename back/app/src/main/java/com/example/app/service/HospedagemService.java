@@ -4,18 +4,21 @@ import com.example.app.exception.CapacidadeExcedidaException;
 import com.example.app.exception.DataInvalidaException;
 import com.example.app.exception.QuartoIndisponivelException;
 import com.example.app.exception.RecursoNaoPermitidoException;
-import com.example.app.model.*;
-import com.example.app.repository.*;
-import com.example.app.exception.DataInvalidaException;
+import com.example.app.model.Aluguel;
+import com.example.app.model.Cliente;
+import com.example.app.model.Pagamento;
+import com.example.app.model.Quarto;
+import com.example.app.model.QuartoDuplo;
+import com.example.app.model.StatusAluguel;
+import com.example.app.repository.AluguelRepository;
+import com.example.app.repository.ClienteRepository;
+import com.example.app.repository.QuartoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-<<<<<<< HEAD
-=======
 import java.util.NoSuchElementException;
->>>>>>> 59ed827f9082e310da594185d46356a6fcbd4e65
 import java.util.Optional;
 
 @Service
@@ -35,7 +38,7 @@ public class HospedagemService {
 
     public Cliente cadastrarCliente(Cliente cliente) {
         if (clienteRepository.findByEmail(cliente.getEmail()).isPresent()) {
-            throw new RuntimeException("E-mail já está cadastrado no sistema.");
+            throw new RuntimeException("E-mail ja esta cadastrado no sistema.");
         }
         return clienteRepository.save(cliente);
     }
@@ -48,46 +51,31 @@ public class HospedagemService {
                 return c;
             }
         }
-        throw new RuntimeException("Credenciais inválidas para o perfil selecionado.");
+        throw new RuntimeException("Credenciais invalidas para o perfil selecionado.");
     }
 
     public Aluguel registrarAluguel(Aluguel aluguel) {
-<<<<<<< HEAD
-        // 1. Validação de Regra de Negócio (exceção que você vai criar)
-        if (aluguel.getDataSaida().before(aluguel.getDataEntrada())) {
-            throw new DataInvalidaException("A data de saída não pode ser anterior à de entrada!");
-        }
-
-        // 2. Cálculo do valor
-        aluguel.setValorFinal(aluguel.calcularValorFinal());
-
-        // 3. Inicializa o Pagamento como PENDENTE para que o objeto exista no banco
-        Pagamento pag = new Pagamento();
-        pag.setValor(aluguel.getValorFinal());
-        pag.setStatus(STATUS_PENDENTE);
-        aluguel.setPagamento(pag);
-=======
         if (aluguel.getQuarto() == null || aluguel.getQuarto().getId() == null) {
-            throw new RecursoNaoPermitidoException("É necessário informar um quarto válido para registrar o aluguel.");
+            throw new RecursoNaoPermitidoException("E necessario informar um quarto valido para registrar o aluguel.");
         }
 
         Quarto quarto = quartoRepository.findById(aluguel.getQuarto().getId())
-                .orElseThrow(() -> new NoSuchElementException("Quarto não encontrado."));
+                .orElseThrow(() -> new NoSuchElementException("Quarto nao encontrado."));
 
         if (!quarto.isDisponivel()) {
-            throw new QuartoIndisponivelException("O quarto selecionado não está disponível para locação.");
+            throw new QuartoIndisponivelException("O quarto selecionado nao esta disponivel para locacao.");
         }
 
         validarDatas(aluguel);
 
         if (aluguel.getQuantidadeHospedes() <= 0) {
-            throw new CapacidadeExcedidaException("A quantidade de hóspedes deve ser maior que zero.");
+            throw new CapacidadeExcedidaException("A quantidade de hospedes deve ser maior que zero.");
         }
 
         if (aluguel.getQuantidadeHospedes() > quarto.getCapacidadeMaxima()) {
             throw new CapacidadeExcedidaException(
-                    "A quantidade de hóspedes (" + aluguel.getQuantidadeHospedes() +
-                    ") excede a capacidade máxima do quarto (" + quarto.getCapacidadeMaxima() + ").");
+                    "A quantidade de hospedes (" + aluguel.getQuantidadeHospedes() +
+                    ") excede a capacidade maxima do quarto (" + quarto.getCapacidadeMaxima() + ").");
         }
 
         if (quarto instanceof QuartoDuplo quartoDuplo) {
@@ -97,25 +85,20 @@ public class HospedagemService {
         aluguel.setQuarto(quarto);
         aluguel.setStatus(StatusAluguel.ATIVO);
         aluguel.setValorFinal(aluguel.calcularValorFinal());
+        aluguel.setPagamento(criarPagamentoPendente(aluguel));
 
         quarto.setDisponivel(false);
         quartoRepository.save(quarto);
->>>>>>> 59ed827f9082e310da594185d46356a6fcbd4e65
 
         return aluguelRepository.save(aluguel);
     }
 
-<<<<<<< HEAD
-    public List<Aluguel> listarReservasPorCliente(Long clienteId) {
-        if (!clienteRepository.existsById(clienteId)) {
-            throw new IllegalArgumentException("Cliente nao encontrado.");
-=======
     public Aluguel cancelarAluguel(Long id) {
         Aluguel aluguel = aluguelRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Aluguel não encontrado."));
+                .orElseThrow(() -> new NoSuchElementException("Aluguel nao encontrado."));
 
         if (aluguel.getStatus() == StatusAluguel.CANCELADO) {
-            throw new RecursoNaoPermitidoException("Este aluguel já se encontra cancelado.");
+            throw new RecursoNaoPermitidoException("Este aluguel ja se encontra cancelado.");
         }
 
         aluguel.setStatus(StatusAluguel.CANCELADO);
@@ -131,17 +114,15 @@ public class HospedagemService {
 
     public List<Aluguel> buscarHistoricoPorCliente(Long clienteId) {
         if (!clienteRepository.existsById(clienteId)) {
-            throw new NoSuchElementException("Cliente não encontrado.");
->>>>>>> 59ed827f9082e310da594185d46356a6fcbd4e65
+            throw new NoSuchElementException("Cliente nao encontrado.");
         }
         return aluguelRepository.findByClienteIdOrderByDataEntradaDesc(clienteId);
     }
 
-<<<<<<< HEAD
     @Transactional
     public Aluguel confirmarPagamento(Long aluguelId) {
         Aluguel aluguel = aluguelRepository.findByIdForPaymentUpdate(aluguelId)
-                .orElseThrow(() -> new IllegalArgumentException("Aluguel nao encontrado."));
+                .orElseThrow(() -> new NoSuchElementException("Aluguel nao encontrado."));
 
         Pagamento pagamento = aluguel.getPagamento();
         if (pagamento == null) {
@@ -159,19 +140,26 @@ public class HospedagemService {
 
         pagamento.setStatus(STATUS_CONCLUIDO);
         return aluguelRepository.save(aluguel);
-=======
+    }
+
+    private Pagamento criarPagamentoPendente(Aluguel aluguel) {
+        Pagamento pagamento = new Pagamento();
+        pagamento.setValor(aluguel.getValorFinal());
+        pagamento.setStatus(STATUS_PENDENTE);
+        return pagamento;
+    }
+
     private void validarDatas(Aluguel aluguel) {
         if (aluguel.getDataEntrada() == null || aluguel.getDataSaida() == null) {
-            throw new DataInvalidaException("As datas de entrada e saída são obrigatórias.");
+            throw new DataInvalidaException("As datas de entrada e saida sao obrigatorias.");
         }
 
         if (!aluguel.getDataSaida().after(aluguel.getDataEntrada())) {
-            throw new DataInvalidaException("A data de saída deve ser posterior à data de entrada.");
+            throw new DataInvalidaException("A data de saida deve ser posterior a data de entrada.");
         }
 
         if (aluguel.getNumeroDiarias() <= 0) {
-            throw new DataInvalidaException("O número de diárias deve ser maior que zero.");
+            throw new DataInvalidaException("O numero de diarias deve ser maior que zero.");
         }
->>>>>>> 59ed827f9082e310da594185d46356a6fcbd4e65
     }
 }

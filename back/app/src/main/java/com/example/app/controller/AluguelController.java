@@ -1,15 +1,21 @@
 package com.example.app.controller;
 
 import com.example.app.model.Aluguel;
-import com.example.app.service.HospedagemService;
 import com.example.app.repository.AluguelRepository;
+import com.example.app.service.HospedagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/alugueis")
@@ -23,50 +29,18 @@ public class AluguelController {
     private HospedagemService service;
 
     @GetMapping
-    public List<Aluguel> listar() {
-        return repository.findAll();
+    public ResponseEntity<List<Aluguel>> listar() {
+        return ResponseEntity.ok(repository.findAll());
     }
 
     @GetMapping("/cliente/{clienteId}")
-<<<<<<< HEAD
-    public ResponseEntity<?> listarPorCliente(@PathVariable Long clienteId) {
-        try {
-            List<Aluguel> reservas = service.listarReservasPorCliente(clienteId);
-            return ResponseEntity.ok(reservas);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("erro", e.getMessage()));
-        }
+    public ResponseEntity<List<Aluguel>> listarPorCliente(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(service.buscarHistoricoPorCliente(clienteId));
     }
 
     @GetMapping("/reservas/cliente/{clienteId}")
-    public ResponseEntity<?> listarReservasPorCliente(@PathVariable Long clienteId) {
+    public ResponseEntity<List<Aluguel>> listarReservasPorCliente(@PathVariable Long clienteId) {
         return listarPorCliente(clienteId);
-    }
-
-    @PutMapping("/{id}/pagar")
-    public ResponseEntity<?> confirmarPagamento(@PathVariable Long id) {
-        try {
-            Aluguel aluguel = service.confirmarPagamento(id);
-            return ResponseEntity.ok(aluguel);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("erro", e.getMessage()));
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("erro", e.getMessage()));
-        }
-    }
-
-    @PostMapping
-    public ResponseEntity<Aluguel> cadastrar(@RequestBody Aluguel aluguel) {
-        try {
-            Aluguel novo = service.registrarAluguel(aluguel);
-            return new ResponseEntity<>(novo, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-=======
-    public ResponseEntity<List<Aluguel>> historicoPorCliente(@PathVariable Long clienteId) {
-        return ResponseEntity.ok(service.buscarHistoricoPorCliente(clienteId));
     }
 
     @PostMapping
@@ -80,5 +54,10 @@ public class AluguelController {
         Aluguel cancelado = service.cancelarAluguel(id);
         return ResponseEntity.ok(cancelado);
     }
->>>>>>> 59ed827f9082e310da594185d46356a6fcbd4e65
+
+    @PutMapping("/{id}/pagar")
+    public ResponseEntity<Aluguel> confirmarPagamento(@PathVariable Long id) {
+        Aluguel aluguel = service.confirmarPagamento(id);
+        return ResponseEntity.ok(aluguel);
+    }
 }
