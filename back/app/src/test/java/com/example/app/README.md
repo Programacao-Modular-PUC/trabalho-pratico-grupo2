@@ -245,6 +245,62 @@ Resultado: todas as regras de negócio do serviço de hospedagem foram validadas
 
 ---
 
+### 3.8 Testes da Classe QuartoServiceTest
+
+Objetivo: validar os serviços de consulta e busca de quartos disponibilizados pelo sistema.
+
+#### Cenário 1 – Listagem de todos os quartos
+
+* Regra validada: retorno de todos os quartos cadastrados.
+* Resultado esperado: lista contendo todos os quartos registrados.
+* Resultado obtido: lista retornada corretamente.
+* Status: Aprovado.
+
+#### Cenário 2 – Listagem de quartos disponíveis
+
+* Regra validada: retorno apenas dos quartos disponíveis para locação.
+* Resultado esperado: lista contendo somente quartos disponíveis.
+* Resultado obtido: lista retornada corretamente.
+* Status: Aprovado.
+
+#### Cenário 3 – Busca por quartos do tipo Individual
+
+* Regra validada: consulta de quartos individuais.
+* Resultado esperado: retorno da lista de quartos individuais.
+* Resultado obtido: lista retornada corretamente.
+* Status: Aprovado.
+
+#### Cenário 4 – Busca por quartos do tipo Casal
+
+* Regra validada: consulta de quartos duplos.
+* Resultado esperado: retorno da lista de quartos do tipo casal.
+* Resultado obtido: lista retornada corretamente.
+* Status: Aprovado.
+
+#### Cenário 5 – Busca com tipo nulo
+
+* Regra validada: impedir consultas sem especificação do tipo de quarto.
+* Resultado esperado: lançamento de RecursoNaoPermitidoException.
+* Resultado obtido: exceção lançada corretamente.
+* Status: Aprovado.
+
+#### Cenário 6 – Busca com tipo vazio
+
+* Regra validada: impedir consultas com parâmetro vazio.
+* Resultado esperado: lançamento de RecursoNaoPermitidoException.
+* Resultado obtido: exceção lançada corretamente.
+* Status: Aprovado.
+
+#### Cenário 7 – Busca com tipo inválido
+
+* Regra validada: impedir consultas com tipos de quarto não suportados pelo sistema.
+* Resultado esperado: lançamento de RecursoNaoPermitidoException.
+* Resultado obtido: exceção lançada corretamente.
+* Status: Aprovado.
+
+Resultado: os testes confirmaram o correto funcionamento dos serviços de consulta de quartos, bem como a validação dos parâmetros de entrada e o tratamento adequado de situações inválidas.
+
+
 ## 4. Conclusão
 
 Os testes unitários desenvolvidos permitiram validar as principais funcionalidades do sistema de hospedagem, incluindo cálculos de diárias, controle de capacidade dos quartos, regras de utilização de berço, gerenciamento de aluguéis e operações de hospedagem.
