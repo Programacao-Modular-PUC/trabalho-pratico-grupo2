@@ -82,15 +82,20 @@ public class HospedagemService {
             quartoDuplo.validarSolicitacaoBerco();
         }
 
-        aluguel.setQuarto(quarto);
-        aluguel.setStatus(StatusAluguel.ATIVO);
-        aluguel.setValorFinal(aluguel.calcularValorFinal());
-        aluguel.setPagamento(criarPagamentoPendente(aluguel));
-
         quarto.setDisponivel(false);
         quartoRepository.save(quarto);
 
-        return aluguelRepository.save(aluguel);
+        Aluguel aluguelSalvo = aluguelRepository.save(aluguel);
+
+        Cliente cliente = aluguel.getCliente();
+
+        cliente.setQuantidadeHospedagens(
+        cliente.getQuantidadeHospedagens() + 1
+);
+
+clienteRepository.save(cliente);
+
+return aluguelSalvo;
     }
 
     public Aluguel cancelarAluguel(Long id) {
@@ -161,5 +166,10 @@ public class HospedagemService {
         if (aluguel.getNumeroDiarias() <= 0) {
             throw new DataInvalidaException("O numero de diarias deve ser maior que zero.");
         }
+    }
+
+    public Cliente buscarClientePorId(Long id) {
+    return clienteRepository.findById(id)
+            .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado."));
     }
 }
