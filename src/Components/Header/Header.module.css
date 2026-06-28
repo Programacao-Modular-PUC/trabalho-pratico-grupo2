@@ -198,4 +198,23 @@
 .btnCad:hover {
   background: var(--ceu);
 }
+
+
+.fidelidade {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    text-align: left;
+}
+
+.fidelidade h4 {
+    margin: 0 0 8px;
+    font-size: 15px;
+}
+
+.fidelidade p {
+    margin: 4px 0;
+    font-size: 13px;
+}
  

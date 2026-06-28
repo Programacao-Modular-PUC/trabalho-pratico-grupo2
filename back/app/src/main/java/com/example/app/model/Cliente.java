@@ -17,6 +17,7 @@ public class Cliente {
     private String endereco;
     private String senha;
     private String tipoPerfil; 
+    private int quantidadeHospedagens;
 
     public Cliente() {}
 
@@ -46,4 +47,8 @@ public class Cliente {
     public void setSenha(String senha) { this.senha = senha; }
     public String getTipoPerfil() { return tipoPerfil; }
     public void setTipoPerfil(String tipoPerfil) { this.tipoPerfil = tipoPerfil; }
+    public int getQuantidadeHospedagens() {  return quantidadeHospedagens; }
+
+    public void setQuantidadeHospedagens(int quantidadeHospedagens) {  this.quantidadeHospedagens = quantidadeHospedagens;}
+
 }

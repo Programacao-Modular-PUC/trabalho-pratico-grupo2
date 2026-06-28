@@ -54,49 +54,54 @@ public class HospedagemService {
         throw new RuntimeException("Credenciais invalidas para o perfil selecionado.");
     }
 
-    public Aluguel registrarAluguel(Aluguel aluguel) {
-        if (aluguel.getQuarto() == null || aluguel.getQuarto().getId() == null) {
-            throw new RecursoNaoPermitidoException("E necessario informar um quarto valido para registrar o aluguel.");
-        }
-
-        Quarto quarto = quartoRepository.findById(aluguel.getQuarto().getId())
-                .orElseThrow(() -> new NoSuchElementException("Quarto nao encontrado."));
-
-        if (!quarto.isDisponivel()) {
-            throw new QuartoIndisponivelException("O quarto selecionado nao esta disponivel para locacao.");
-        }
-
-        validarDatas(aluguel);
-
-        if (aluguel.getQuantidadeHospedes() <= 0) {
-            throw new CapacidadeExcedidaException("A quantidade de hospedes deve ser maior que zero.");
-        }
-
-        if (aluguel.getQuantidadeHospedes() > quarto.getCapacidadeMaxima()) {
-            throw new CapacidadeExcedidaException(
-                    "A quantidade de hospedes (" + aluguel.getQuantidadeHospedes() +
-                    ") excede a capacidade maxima do quarto (" + quarto.getCapacidadeMaxima() + ").");
-        }
-
-        if (quarto instanceof QuartoDuplo quartoDuplo) {
-            quartoDuplo.validarSolicitacaoBerco();
-        }
-
-        quarto.setDisponivel(false);
-        quartoRepository.save(quarto);
-
-        Aluguel aluguelSalvo = aluguelRepository.save(aluguel);
-
-        Cliente cliente = aluguel.getCliente();
-
-        cliente.setQuantidadeHospedagens(
-        cliente.getQuantidadeHospedagens() + 1
-);
-
-clienteRepository.save(cliente);
-
-return aluguelSalvo;
+   public Aluguel registrarAluguel(Aluguel aluguel) {
+    if (aluguel.getQuarto() == null || aluguel.getQuarto().getId() == null) {
+        throw new RecursoNaoPermitidoException("E necessario informar um quarto valido para registrar o aluguel.");
     }
+
+    Quarto quarto = quartoRepository.findById(aluguel.getQuarto().getId())
+            .orElseThrow(() -> new NoSuchElementException("Quarto nao encontrado."));
+
+    if (!quarto.isDisponivel()) {
+        throw new QuartoIndisponivelException("O quarto selecionado nao esta disponivel para locacao.");
+    }
+
+    validarDatas(aluguel);
+
+    if (aluguel.getQuantidadeHospedes() <= 0) {
+        throw new CapacidadeExcedidaException("A quantidade de hospedes deve ser maior que zero.");
+    }
+
+    if (aluguel.getQuantidadeHospedes() > quarto.getCapacidadeMaxima()) {
+        throw new CapacidadeExcedidaException(
+                "A quantidade de hospedes (" + aluguel.getQuantidadeHospedes() +
+                ") excede a capacidade maxima do quarto (" + quarto.getCapacidadeMaxima() + ").");
+    }
+
+    if (quarto instanceof QuartoDuplo quartoDuplo) {
+        quartoDuplo.validarSolicitacaoBerco();
+    }
+
+    // ===== ESSAS LINHAS ESTAVAM FALTANDO =====
+    aluguel.setQuarto(quarto);
+    aluguel.setStatus(StatusAluguel.ATIVO);
+    aluguel.setValorFinal(aluguel.calcularValorFinal());
+    aluguel.setPagamento(criarPagamentoPendente(aluguel));
+    // =========================================
+
+    quarto.setDisponivel(false);
+    quartoRepository.save(quarto);
+
+    Aluguel aluguelSalvo = aluguelRepository.save(aluguel);
+
+    Cliente cliente = aluguel.getCliente();
+    cliente.setQuantidadeHospedagens(
+            cliente.getQuantidadeHospedagens() + 1
+    );
+    clienteRepository.save(cliente);
+
+    return aluguelSalvo;
+}
 
     public Aluguel cancelarAluguel(Long id) {
         Aluguel aluguel = aluguelRepository.findById(id)
