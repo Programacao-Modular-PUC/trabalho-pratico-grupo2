@@ -9,10 +9,12 @@ import com.example.app.model.Cliente;
 import com.example.app.model.Pagamento;
 import com.example.app.model.Quarto;
 import com.example.app.model.QuartoDuplo;
+import com.example.app.model.ServicoAdicional;
 import com.example.app.model.StatusAluguel;
 import com.example.app.repository.AluguelRepository;
 import com.example.app.repository.ClienteRepository;
 import com.example.app.repository.QuartoRepository;
+import com.example.app.repository.ServicoAdicionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,9 @@ public class HospedagemService {
 
     @Autowired
     private QuartoRepository quartoRepository;
+
+    @Autowired
+    private ServicoAdicionalRepository servicoAdicionalRepository;
 
     public Cliente cadastrarCliente(Cliente cliente) {
         if (clienteRepository.findByEmail(cliente.getEmail()).isPresent()) {
@@ -82,12 +87,11 @@ public class HospedagemService {
         quartoDuplo.validarSolicitacaoBerco();
     }
 
-    // ===== ESSAS LINHAS ESTAVAM FALTANDO =====
+    aluguel.setServicosAdicionais(buscarServicosDoAluguel(aluguel));
     aluguel.setQuarto(quarto);
     aluguel.setStatus(StatusAluguel.ATIVO);
     aluguel.setValorFinal(aluguel.calcularValorFinal());
     aluguel.setPagamento(criarPagamentoPendente(aluguel));
-    // =========================================
 
     quarto.setDisponivel(false);
     quartoRepository.save(quarto);
@@ -102,6 +106,24 @@ public class HospedagemService {
 
     return aluguelSalvo;
 }
+
+    private List<ServicoAdicional> buscarServicosDoAluguel(Aluguel aluguel) {
+        List<ServicoAdicional> servicos = aluguel.getServicosAdicionais();
+        if (servicos == null || servicos.isEmpty()) {
+            return List.of();
+        }
+
+        List<Long> ids = servicos.stream()
+                .map(ServicoAdicional::getId)
+                .toList();
+
+        List<ServicoAdicional> encontrados = servicoAdicionalRepository.findAllById(ids);
+        if (encontrados.size() != ids.size()) {
+            throw new NoSuchElementException("Um ou mais servicos adicionais nao foram encontrados.");
+        }
+
+        return encontrados;
+    }
 
     public Aluguel cancelarAluguel(Long id) {
         Aluguel aluguel = aluguelRepository.findById(id)

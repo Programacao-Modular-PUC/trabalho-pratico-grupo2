@@ -55,6 +55,14 @@ function StatusReserva() {
                   <div className={styles.itemLinha}>
                     <span>Status:</span> <strong>{item.pagamento?.status || 'PENDENTE'}</strong>
                   </div>
+                  <div className={styles.itemLinha}>
+                    <span>Servicos:</span>
+                    <strong>
+                      {item.servicosAdicionais?.length
+                        ? item.servicosAdicionais.map((servico) => servico.nome).join(', ')
+                        : 'Nenhum'}
+                    </strong>
+                  </div>
                   <div className={styles.resRodape}>
                      <span className={styles.resPreco}>Total pago</span>
                      <span className={styles.resPreco}><strong>R$ {item.valorFinal?.toFixed(2)}</strong></span>

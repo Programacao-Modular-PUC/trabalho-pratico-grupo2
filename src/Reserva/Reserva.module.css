@@ -1,6 +1,6 @@
 .principal {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,10 +9,10 @@
 
 .caixa {
   background: #ffffff;
-  border-radius: 24px;
+  border-radius: 8px;
   padding: 40px 48px;
   width: 100%;
-  max-width: 520px;
+  max-width: 720px;
   box-shadow: 0 20px 60px rgba(59, 130, 246, 0.12);
   border: 1px solid #dbeafe;
 }
@@ -58,7 +58,7 @@
 .input {
   padding: 10px 14px;
   border: 1.5px solid #dbeafe;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 0.875rem;
   background: #f8fbff;
   outline: none;
@@ -78,22 +78,87 @@ select.input {
   background: #3b82f6;
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
 .resumo {
   background: #f1f5f9;
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 0.9rem;
   color: #334155;
 }
 
-.campo input[type="checkbox"] {
+.campo input[type="checkbox"],
+.checkLinha input[type="checkbox"],
+.servicoItem input[type="checkbox"] {
   margin-right: 8px;
   accent-color: #3b82f6;
   transform: scale(1.1);
+}
+
+.checkLinha {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+.pacotes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  padding: 14px;
+  background: #f8fbff;
+}
+
+.listaServicos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.servicoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-height: 64px;
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #334155;
+}
+
+.servicoItem span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.servicoItem strong {
+  font-size: 0.85rem;
+}
+
+.servicoItem small {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.servicoItem:has(input:disabled) {
+  opacity: 0.72;
+}
+
+.avisoServicos {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #64748b;
+  font-size: 0.85rem;
 }
 
 @media (max-width: 600px) {
@@ -102,6 +167,10 @@ select.input {
   }
 
   .linha {
+    grid-template-columns: 1fr;
+  }
+
+  .listaServicos {
     grid-template-columns: 1fr;
   }
 }
