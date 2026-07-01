@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "servicos_adicionais")
-public class ServicoAdicional {
+public class ServicoAdicional implements ItemHospedagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +38,7 @@ public class ServicoAdicional {
         this.tipoCobranca = tipoCobranca == null ? TipoCobrancaServico.UNICA : tipoCobranca;
     }
 
+    @Override
     public double calcularValor(int numeroDiarias, int quantidadeHospedes) {
         int diarias = Math.max(numeroDiarias, 1);
         int hospedes = Math.max(quantidadeHospedes, 1);

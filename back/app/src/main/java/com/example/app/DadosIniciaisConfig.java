@@ -3,12 +3,14 @@ package com.example.app;
 import com.example.app.model.PacoteHospedagem;
 import com.example.app.model.ServicoAdicional;
 import com.example.app.model.TipoCobrancaServico;
+import com.example.app.model.catalogo.CatalogoServicosSingleton;
 import com.example.app.repository.PacoteHospedagemRepository;
 import com.example.app.repository.ServicoAdicionalRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -59,12 +61,13 @@ public class DadosIniciaisConfig {
                     TipoCobrancaServico.UNICA
             );
 
-            criarPacoteSeNecessario(
+            PacoteHospedagem pacoteEconomico = criarPacoteSeNecessario(
                     pacoteRepository,
                     "Pacote Economico",
                     "Cafe da manha e lavanderia para uma estadia simples.",
                     false,
-                    List.of(cafe, lavanderia)
+                    List.of(cafe, lavanderia),
+                    List.of()
             );
 
             criarPacoteSeNecessario(
@@ -72,15 +75,21 @@ public class DadosIniciaisConfig {
                     "Pacote Familia",
                     "Servicos pensados para grupos e familias.",
                     false,
-                    List.of(cafe, transporte, lavanderia)
+                    List.of(cafe, transporte, lavanderia),
+                    List.of()
             );
 
+            // Demonstracao do padrao Composite: o Pacote Premium eh formado
+            // pelo Pacote Economico inteiro (sub-pacote) mais os servicos
+            // extras de passeios e traslado, sem precisar repetir cafe da
+            // manha e lavanderia na lista de servicos diretos.
             criarPacoteSeNecessario(
                     pacoteRepository,
                     "Pacote Premium",
-                    "Experiencia completa com traslado, passeios e conforto.",
+                    "Tudo do Pacote Economico, mais passeios e traslado para uma experiencia completa.",
                     false,
-                    List.of(cafe, passeios, transporte, lavanderia, traslado)
+                    List.of(passeios, traslado, transporte),
+                    List.of(pacoteEconomico)
             );
 
             criarPacoteSeNecessario(
@@ -88,8 +97,13 @@ public class DadosIniciaisConfig {
                     "Pacote Personalizado",
                     "Escolha livremente os servicos adicionais desejados.",
                     true,
+                    List.of(),
                     List.of()
             );
+
+            // Garante que o catalogo global (Singleton) reflita os
+            // servicos ativos assim que a base for populada.
+            CatalogoServicosSingleton.getInstance().atualizar(servicoRepository.findByAtivoTrue());
         };
     }
 
