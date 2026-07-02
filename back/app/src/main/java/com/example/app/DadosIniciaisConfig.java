@@ -10,7 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -61,6 +60,7 @@ public class DadosIniciaisConfig {
                     TipoCobrancaServico.UNICA
             );
 
+            // Criando pacotes base
             PacoteHospedagem pacoteEconomico = criarPacoteSeNecessario(
                     pacoteRepository,
                     "Pacote Economico",
@@ -79,10 +79,7 @@ public class DadosIniciaisConfig {
                     List.of()
             );
 
-            // Demonstracao do padrao Composite: o Pacote Premium eh formado
-            // pelo Pacote Economico inteiro (sub-pacote) mais os servicos
-            // extras de passeios e traslado, sem precisar repetir cafe da
-            // manha e lavanderia na lista de servicos diretos.
+            // Demonstracao do padrao Composite
             criarPacoteSeNecessario(
                     pacoteRepository,
                     "Pacote Premium",
@@ -101,8 +98,7 @@ public class DadosIniciaisConfig {
                     List.of()
             );
 
-            // Garante que o catalogo global (Singleton) reflita os
-            // servicos ativos assim que a base for populada.
+            // Garante que o catalogo global (Singleton) reflita os servicos ativos
             CatalogoServicosSingleton.getInstance().atualizar(servicoRepository.findByAtivoTrue());
         };
     }
@@ -123,14 +119,21 @@ public class DadosIniciaisConfig {
         return repository.save(new ServicoAdicional(nome, descricao, preco, tipoCobranca));
     }
 
-    private void criarPacoteSeNecessario(
+    private PacoteHospedagem criarPacoteSeNecessario(
             PacoteHospedagemRepository repository,
             String nome,
             String descricao,
             boolean personalizado,
-            List<ServicoAdicional> servicos) {
-        if (!repository.existsByNome(nome)) {
-            repository.save(new PacoteHospedagem(nome, descricao, personalizado, servicos));
+            List<ServicoAdicional> servicos,
+            List<PacoteHospedagem> subPacotes) {
+        
+        if (repository.existsByNome(nome)) {
+            return repository.findAll().stream()
+                    .filter(pacote -> nome.equals(pacote.getNome()))
+                    .findFirst()
+                    .orElseThrow();
         }
+
+        return repository.save(new PacoteHospedagem(nome, descricao, personalizado, servicos, subPacotes));
     }
 }
