@@ -20,7 +20,9 @@ public class DadosIniciaisConfig {
     CommandLineRunner popularServicosEPacotes(
             ServicoAdicionalRepository servicoRepository,
             PacoteHospedagemRepository pacoteRepository) {
+
         return args -> {
+
             ServicoAdicional cafe = criarServicoSeNecessario(
                     servicoRepository,
                     "Cafe da manha",
@@ -103,7 +105,8 @@ public class DadosIniciaisConfig {
 
             // Garante que o catalogo global (Singleton) reflita os
             // servicos ativos assim que a base for populada.
-            CatalogoServicosSingleton.getInstance().atualizar(servicoRepository.findByAtivoTrue());
+            CatalogoServicosSingleton.getInstance()
+                    .atualizar(servicoRepository.findByAtivoTrue());
         };
     }
 
@@ -113,6 +116,7 @@ public class DadosIniciaisConfig {
             String descricao,
             double preco,
             TipoCobrancaServico tipoCobranca) {
+
         if (repository.existsByNome(nome)) {
             return repository.findAll().stream()
                     .filter(servico -> nome.equals(servico.getNome()))
@@ -120,17 +124,42 @@ public class DadosIniciaisConfig {
                     .orElseThrow();
         }
 
-        return repository.save(new ServicoAdicional(nome, descricao, preco, tipoCobranca));
+        return repository.save(
+                new ServicoAdicional(
+                        nome,
+                        descricao,
+                        preco,
+                        tipoCobranca
+                )
+        );
     }
 
-    private void criarPacoteSeNecessario(
+    private PacoteHospedagem criarPacoteSeNecessario(
             PacoteHospedagemRepository repository,
             String nome,
             String descricao,
             boolean personalizado,
-            List<ServicoAdicional> servicos) {
-        if (!repository.existsByNome(nome)) {
-            repository.save(new PacoteHospedagem(nome, descricao, personalizado, servicos));
+            List<ServicoAdicional> servicos,
+            List<PacoteHospedagem> subPacotes) {
+
+        if (repository.existsByNome(nome)) {
+            return repository.findAll().stream()
+                    .filter(pacote -> nome.equals(pacote.getNome()))
+                    .findFirst()
+                    .orElseThrow();
         }
+
+        return repository.save(
+                new PacoteHospedagem(
+                        nome,
+                        descricao,
+                        personalizado,
+                        servicos,
+                        subPacotes
+                )
+        );
     }
 }
+
+//O Catálogo de Serviços representa um recurso global da aplicação
+// . Todos os módulos do sistema devem consultar exatamente a mesma lista de serviços adicionais disponíveis para garantir consistência das informações
