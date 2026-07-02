@@ -10,7 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -63,6 +62,7 @@ public class DadosIniciaisConfig {
                     TipoCobrancaServico.UNICA
             );
 
+            // Criando pacotes base
             PacoteHospedagem pacoteEconomico = criarPacoteSeNecessario(
                     pacoteRepository,
                     "Pacote Economico",
@@ -81,10 +81,7 @@ public class DadosIniciaisConfig {
                     List.of()
             );
 
-            // Demonstracao do padrao Composite: o Pacote Premium eh formado
-            // pelo Pacote Economico inteiro (sub-pacote) mais os servicos
-            // extras de passeios e traslado, sem precisar repetir cafe da
-            // manha e lavanderia na lista de servicos diretos.
+            // Demonstracao do padrao Composite
             criarPacoteSeNecessario(
                     pacoteRepository,
                     "Pacote Premium",
@@ -141,7 +138,6 @@ public class DadosIniciaisConfig {
             boolean personalizado,
             List<ServicoAdicional> servicos,
             List<PacoteHospedagem> subPacotes) {
-
         if (repository.existsByNome(nome)) {
             return repository.findAll().stream()
                     .filter(pacote -> nome.equals(pacote.getNome()))
